@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuidarte+ | Cuidado clínico avanzado en tu hogar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        plus: {
+                            green: '#10B981',
+                            greenHover: '#059669',
+                            dark: '#1E293B',
+                            gray: '#64748B',
+                            light: '#F8FAFC'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .pattern-plus {
+            background-color: #F8FAFC;
+            background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 15v10m-5-5h10' stroke='%2310B981' stroke-width='1.5' stroke-opacity='0.1' stroke-linecap='round' fill='none' fill-rule='evenodd'/%3E%3C/svg%3E");
+        }
+        .glass {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+        .glass-dark {
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 1);
+        }
+        ::selection {
+            background: #10B981;
+            color: #ffffff;
+        }
+        /* Animaciones Scroll */
+        .reveal {
+            opacity: 0;
+        }
+        .reveal.active {
+            animation: fadeUp 0.8s ease-out forwards;
+        }
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body class="bg-plus-light text-plus-dark antialiased">
+
+    <!-- Navbar -->
+    <nav class="fixed w-full z-50 glass border-b border-gray-200/50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <div class="flex-shrink-0 flex items-center gap-1 cursor-pointer">
+                    <span class="font-heading font-bold text-2xl text-plus-dark tracking-tight">Cuidarte</span>
+                    <span class="font-heading font-bold text-3xl text-transparent bg-clip-text bg-gradient-to-r from-plus-green to-emerald-400">+</span>
+                </div>
+                <!-- Menú Escritorio -->
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="#servicios" class="text-sm font-medium text-plus-gray hover:text-plus-green transition-colors">Servicios</a>
+                    <a href="#planes" class="text-sm font-medium text-plus-gray hover:text-plus-green transition-colors">Planes</a>
+                    <a href="#nosotros" class="text-sm font-medium text-plus-gray hover:text-plus-green transition-colors">Profesional</a>
+                    <a href="#reserva" class="bg-gradient-to-r from-plus-green to-emerald-500 hover:from-emerald-500 hover:to-plus-green text-white px-6 py-2.5 rounded-xl font-medium transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-emerald-500/30 flex items-center gap-2">
+                        <span>Agendar Visita</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                    </a>
+                </div>
+                <!-- Botón Menú Móvil -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-plus-dark hover:text-plus-green focus:outline-none p-2 transition-colors">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path id="mobile-menu-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Panel Menú Móvil -->
+        <div id="mobile-menu" class="md:hidden hidden bg-white border-b border-slate-200 shadow-xl absolute w-full left-0 top-20">
+            <div class="px-4 py-6 space-y-3 flex flex-col">
+                <a href="#servicios" class="mobile-link block px-4 py-3 rounded-xl text-base font-medium text-plus-dark hover:text-plus-green hover:bg-emerald-50 transition-colors">Servicios Especializados</a>
+                <a href="#planes" class="mobile-link block px-4 py-3 rounded-xl text-base font-medium text-plus-dark hover:text-plus-green hover:bg-emerald-50 transition-colors">Planes de Cuidado</a>
+                <a href="#nosotros" class="mobile-link block px-4 py-3 rounded-xl text-base font-medium text-plus-dark hover:text-plus-green hover:bg-emerald-50 transition-colors">Profesional</a>
+                <a href="#reserva" class="mobile-link block w-full text-center bg-plus-dark hover:bg-gray-800 text-white px-6 py-4 rounded-xl font-medium transition-colors shadow-lg mt-4 flex justify-center items-center gap-2">
+                    Agendar Visita
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden pattern-plus">
+        <!-- Elementos decorativos de fondo -->
+        <div class="absolute top-20 -left-20 w-96 h-96 bg-emerald-300/30 rounded-full mix-blend-multiply filter blur-[100px] opacity-70 animate-pulse" style="animation-duration: 4s;"></div>
+        <div class="absolute bottom-10 right-10 w-96 h-96 bg-emerald-200/40 rounded-full mix-blend-multiply filter blur-[100px] opacity-70"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="max-w-2xl reveal">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white shadow-sm border border-emerald-100 mb-6">
+                        <span class="w-2 h-2 rounded-full bg-plus-green animate-pulse"></span>
+                        <span class="text-xs font-semibold text-plus-green uppercase tracking-wider">Atención 09:00 a 20:00 hrs</span>
+                    </div>
+                    <h1 class="text-5xl lg:text-6xl font-heading font-extrabold leading-tight mb-6">
+                        Cuidado clínico <span class="text-transparent bg-clip-text bg-gradient-to-r from-plus-green to-emerald-500">avanzado</span> en tu hogar
+                    </h1>
+                    <p class="text-xl text-plus-gray mb-8 leading-relaxed">
+                        Transición y gestión clínica domiciliaria. ¿Quieres evitar ir a urgencias y resolverlo en casa? Somos profesionales titulados con experiencia clínica. Vamos a tu casa, evaluamos tu condición e indicamos y realizamos el procedimiento necesario, mantenemos seguimiento continuo para que no te sientas perdido mientras te recuperas.
+                    </p>
+                    
+                    <div class="flex flex-col sm:flex-row gap-4 mb-10">
+                        <a href="#reserva" class="bg-plus-dark hover:bg-gray-800 text-white px-8 py-4 rounded-xl font-medium transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-800/20 flex items-center justify-center gap-2 text-lg">
+                            Solicitar Atención
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </a>
+                    </div>
+
+                    <div class="grid sm:grid-cols-2 gap-4">
+                        <div class="glass-dark p-4 rounded-xl flex items-start gap-3">
+                            <div class="bg-emerald-50 p-2 rounded-lg text-plus-green shrink-0">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            </div>
+                            <div>
+                                <h3 class="font-heading font-semibold text-sm">Evaluación y orientación</h3>
+                                <p class="text-xs text-plus-gray mt-1">Todos los servicios incluyen evaluación de enfermería y orientación clínica.</p>
+                            </div>
+                        </div>
+                        <div class="glass-dark p-4 rounded-xl flex items-start gap-3">
+                            <div class="bg-emerald-50 p-2 rounded-lg text-plus-green shrink-0">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                            </div>
+                            <div>
+                                <h3 class="font-heading font-semibold text-sm">Atención profesional</h3>
+                                <p class="text-xs text-plus-gray mt-1">Atención oportuna y sin esperas.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative hidden lg:block">
+                    <!-- Decoración con imagen principal -->
+                    <div class="absolute inset-0 bg-gradient-to-tr from-emerald-100 to-transparent rounded-[3rem] transform rotate-3 scale-105 reveal" style="animation-delay: 200ms;"></div>
+                    <div class="glass-dark rounded-[3rem] p-8 relative shadow-2xl border border-white transition-transform duration-700 hover:scale-[1.02] reveal" style="animation-delay: 300ms;">
+                        <div class="w-full h-[400px] bg-slate-100 rounded-2xl overflow-hidden relative flex items-center justify-center">
+                            <img src="image1.jpeg" alt="Cuidado clínico en tu hogar" class="w-full h-full object-cover">
+                        </div>
+                        
+                        <!-- Flotante -->
+                        <div class="absolute -bottom-6 -left-6 glass-dark p-4 rounded-xl shadow-xl flex items-center gap-4">
+                            <div class="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center text-plus-green">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            </div>
+                            <div>
+                                <div class="font-bold font-heading text-lg text-plus-dark">Seguimiento Continuo</div>
+                                <div class="text-sm text-plus-gray">No te sientas perdido</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Profesional Section -->
+    <section id="nosotros" class="py-24 bg-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 reveal">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <div class="order-2 md:order-1 relative group">
+                    <div class="absolute -inset-4 bg-gradient-to-r from-emerald-100 to-emerald-50 rounded-[2.5rem] transform rotate-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <!-- Marco decorativo animado -->
+                    <div class="absolute inset-0 border-2 border-emerald-200 rounded-[2rem] translate-x-4 translate-y-4 -z-10 transition-transform duration-500 group-hover:translate-x-6 group-hover:translate-y-6"></div>
+                    <div class="aspect-[4/5] bg-slate-100 rounded-3xl overflow-hidden relative shadow-lg transform transition-transform duration-500 group-hover:-translate-y-2">
+                        <img src="Nayareth.png" alt="Fotografía profesional de Nayareth Diaz" class="w-full h-full object-cover absolute inset-0">
+                    </div>
+                </div>
+                <div class="order-1 md:order-2">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="w-10 h-[2px] bg-plus-green"></span>
+                        <span class="text-plus-green font-semibold uppercase tracking-wider text-sm">Dirección Clínica</span>
+                    </div>
+                    <h2 class="text-4xl font-heading font-bold mb-6">Nayareth Diaz</h2>
+                    <p class="text-lg text-plus-gray mb-6 leading-relaxed">
+                        Profesional titulada con sólida experiencia en gestión clínica domiciliaria. Comprometida con ofrecer una atención humana, precisa y sustentada en el conocimiento técnico.
+                    </p>
+                    <div class="space-y-4 mb-8">
+                        <div class="flex items-start gap-3">
+                            <svg class="w-6 h-6 text-plus-green shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <p class="text-plus-dark">Formación especializada en masoterapia clínica e intervención domiciliaria.</p>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <svg class="w-6 h-6 text-plus-green shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <p class="text-plus-dark">Enfoque preventivo y educación continua para el paciente y su núcleo familiar.</p>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <svg class="w-6 h-6 text-plus-green shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                            <p class="text-plus-dark">Cuidado empático y responsable, valores reflejados tanto en la práctica clínica como en la tenencia responsable de sus 7 mascotas.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Planes Section -->
+    <section id="planes" class="py-24 bg-slate-50 border-t border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <h2 class="text-4xl font-heading font-bold mb-4">Planes de Cuidado Domiciliario</h2>
+                <p class="text-lg text-plus-gray">Programas estructurados para asegurar la continuidad de tu tratamiento en casa, minimizando riesgos y optimizando la recuperación.</p>
+            </div>
+
+            <!-- Evaluación Inicial (Destacado) -->
+            <div class="bg-white rounded-2xl p-8 mb-12 shadow-sm border border-emerald-100 flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/10 hover:border-emerald-200 reveal" style="animation-delay: 100ms;">
+                <div class="absolute right-0 top-0 w-64 h-64 bg-emerald-50 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none"></div>
+                <div class="relative z-10 flex-1">
+                    <div class="inline-flex items-center gap-1 text-plus-green font-bold text-sm uppercase tracking-wider mb-2">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19 11h-6V5a1 1 0 00-2 0v6H5a1 1 0 000 2h6v6a1 1 0 002 0v-6h6a1 1 0 000-2z"/></svg>
+                        Paso 1
+                    </div>
+                    <h3 class="text-2xl font-heading font-bold mb-2">Evaluación Inicial</h3>
+                    <p class="text-plus-gray mb-4">Condición implícita: orientada a pacientes que evaluarán continuidad. Incluye evaluación general en domicilio, levantamiento de necesidades prioritarias, detección de riesgos evidentes, orientación a la familia y propuesta de plan de cuidados personalizado.</p>
+                    <p class="text-sm text-plus-dark bg-emerald-50 px-3 py-2 rounded-lg inline-block border border-emerald-100">
+                        * El valor se descuenta si contrata un plan dentro de 24 horas.
+                    </p>
+                </div>
+                <div class="relative z-10 text-left md:text-right flex flex-col items-start md:items-end">
+                    <span class="text-slate-400 line-through text-lg font-medium">CLP 38,250</span>
+                    <span class="text-4xl font-heading font-extrabold text-plus-dark mb-4">CLP 20,000</span>
+                    <button onclick="document.getElementById('plan-select').value='evaluacion'; window.location.href='#reserva'" class="bg-plus-dark text-white px-8 py-3 rounded-xl font-medium hover:bg-gray-800 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-800/20 whitespace-nowrap">
+                        Solicitar Evaluación
+                    </button>
+                </div>
+            </div>
+
+            <!-- Grid Planes -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Acompaña+ -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 hover:shadow-xl hover:shadow-emerald-500/10 hover:border-emerald-200 transition-all duration-300 hover:-translate-y-2 flex flex-col h-full relative group reveal" style="animation-delay: 100ms;">
+                    <div class="mb-6">
+                        <h3 class="text-xl font-heading font-bold flex items-center mb-1">Acompaña<span class="text-plus-green">+</span></h3>
+                        <p class="text-sm font-medium text-plus-green bg-emerald-50 inline-block px-2 py-1 rounded">Plan Básico</p>
+                    </div>
+                    <div class="mb-6">
+                        <div class="text-sm text-slate-400 line-through">CLP 90,000</div>
+                        <div class="text-3xl font-heading font-bold">CLP 60,000</div>
+                        <div class="text-sm text-plus-gray mt-1">2 visitas mensuales</div>
+                    </div>
+                    <p class="text-sm text-plus-gray mb-6 flex-1">Diseñado para mantener un seguimiento de patologías crónicas con seguridad y respaldo clínico. Nuestra visita no es solo control de signos vitales.</p>
+                    <ul class="space-y-3 mb-8 text-sm">
+                        <li class="flex items-start gap-2">
+                            <svg class="w-4 h-4 text-plus-green shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>Evaluación completa (no solo signos vitales)</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <svg class="w-4 h-4 text-plus-green shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>Revisión de indicaciones médicas y riesgo</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <svg class="w-4 h-4 text-plus-green shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>Educación a familia sobre signos de alerta</span>
+                        </li>
+                    </ul>
+                    <button onclick="document.getElementById('plan-select').value='acompaña'; window.location.href='#reserva'" class="w-full py-3 rounded-lg border-2 border-plus-dark text-plus-dark font-medium hover:bg-plus-dark hover:text-white transition-colors mt-auto">
+                        Elegir Plan
+                    </button>
+                </div>
+
+                <!-- Sostiene+ -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 hover:shadow-xl hover:shadow-emerald-500/10 hover:border-emerald-200 transition-all duration-300 hover:-translate-y-2 flex flex-col h-full relative group reveal" style="animation-delay: 200ms;">
+                    <div class="mb-6">
+                        <h3 class="text-xl font-heading font-bold flex items-center mb-1">Sostiene<span class="text-plus-green">+</span></h3>
+                        <p class="text-sm font-medium text-plus-green bg-emerald-50 inline-block px-2 py-1 rounded">Plan Intermedio</p>
+                    </div>
+                    <div class="mb-6">
+                        <div class="text-sm text-slate-400 line-through">CLP 159,000</div>
+                        <div class="text-3xl font-heading font-bold">CLP 139,000</div>
+                        <div class="text-sm text-plus-gray mt-1">4 visitas mensuales (1 semanal)</div>
+                    </div>
+                    <p class="text-sm text-plus-gray mb-6 flex-1">Programa mensual para pacientes con riesgo leve a moderado (adultos mayores, hipertensos compensados, post alta sin complicaciones) que requieren seguimiento.</p>
+                    <ul class="space-y-3 mb-8 text-sm">
+                        <li class="flex items-start gap-2">
+                            <svg class="w-4 h-4 text-plus-green shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>Control signos, orden y revisión de med.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <svg class="w-4 h-4 text-plus-green shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>Curaciones simples e informe mensual</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <svg class="w-4 h-4 text-plus-green shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>Educación y evaluación de riesgo domiciliario</span>
+                        </li>
+                    </ul>
+                    <button onclick="document.getElementById('plan-select').value='sostiene'; window.location.href='#reserva'" class="w-full py-3 rounded-lg border-2 border-plus-dark text-plus-dark font-medium hover:bg-plus-dark hover:text-white transition-colors mt-auto">
+                        Elegir Plan
+                    </button>
+                </div>
+
+                <!-- Recuperate+ -->
+                <div class="bg-white rounded-2xl p-6 shadow-xl shadow-emerald-500/20 border-2 border-emerald-400 flex flex-col h-full relative transform md:-translate-y-4 hover:-translate-y-6 transition-all duration-300 hover:shadow-2xl hover:shadow-emerald-500/30 reveal" style="animation-delay: 300ms;">
+                    <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-plus-green text-white px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wide">
+                        Recomendado Post Op
+                    </div>
+                    <div class="mb-6 mt-2">
+                        <h3 class="text-xl font-heading font-bold flex items-center mb-1">Recuperate<span class="text-plus-green">+</span></h3>
+                        <p class="text-sm font-medium text-plus-green bg-emerald-50 inline-block px-2 py-1 rounded">Plan Post Operatorio</p>
+                    </div>
+                    <div class="mb-6">
+                        <div class="text-sm text-slate-400 line-through">CLP 230,000</div>
+                        <div class="text-3xl font-heading font-bold">CLP 199,000</div>
+                        <div class="text-sm text-plus-gray mt-1">8 visitas (Seguimiento 2 semanas)</div>
+                    </div>
+                    <p class="text-sm text-plus-gray mb-6 flex-1">Continuidad de cuidados para pacientes post operados durante las primeras semanas post alta. Ajuste de cuidados según la evolución.</p>
+                    <ul class="space-y-3 mb-8 text-sm">
+                        <li class="flex items-start gap-2">
+                            <svg class="w-4 h-4 text-plus-green shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>Ingreso, control y curaciones simples día a día</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <svg class="w-4 h-4 text-plus-green shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>Conciliación de medicinas y manejo del dolor</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <svg class="w-4 h-4 text-plus-green shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>Informe de alta de enfermería</span>
+                        </li>
+                    </ul>
+                    <button onclick="document.getElementById('plan-select').value='recuperate'; window.location.href='#reserva'" class="w-full py-3 rounded-lg bg-gradient-to-r from-plus-green to-emerald-500 text-white font-medium hover:from-emerald-500 hover:to-plus-green shadow-lg shadow-emerald-500/30 transition-all mt-auto">
+                        Elegir Plan
+                    </button>
+                </div>
+
+                <!-- Asiste+ -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 hover:shadow-xl hover:shadow-emerald-500/10 hover:border-emerald-200 transition-all duration-300 hover:-translate-y-2 flex flex-col h-full relative group reveal" style="animation-delay: 400ms;">
+                    <div class="mb-6">
+                        <h3 class="text-xl font-heading font-bold flex items-center mb-1">Asiste<span class="text-plus-green">+</span></h3>
+                        <p class="text-sm font-medium text-plus-green bg-emerald-50 inline-block px-2 py-1 rounded">Plan Intensivo</p>
+                    </div>
+                    <div class="mb-6">
+                        <div class="text-sm text-slate-400 line-through">CLP 430,000</div>
+                        <div class="text-3xl font-heading font-bold">CLP 350,000</div>
+                        <div class="text-sm text-plus-gray mt-1">12 visitas (3 semanales)</div>
+                    </div>
+                    <p class="text-sm text-plus-gray mb-6 flex-1">Diseñado para pacientes con dependencia moderada/severa, frágiles, con sondas, lesiones, polifarmacia o cuidados paliativos.</p>
+                    <ul class="space-y-3 mb-8 text-sm">
+                        <li class="flex items-start gap-2">
+                            <svg class="w-4 h-4 text-plus-green shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>Asesoría, control signos y curaciones simples</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <svg class="w-4 h-4 text-plus-green shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>Coordinación con cuidador e informe mensual</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <svg class="w-4 h-4 text-plus-green shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>Soporte WhatsApp para consultas urgentes</span>
+                        </li>
+                    </ul>
+                    <button onclick="document.getElementById('plan-select').value='asiste'; window.location.href='#reserva'" class="w-full py-3 rounded-lg border-2 border-plus-dark text-plus-dark font-medium hover:bg-plus-dark hover:text-white transition-colors mt-auto">
+                        Elegir Plan
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Servicios Especializados -->
+    <section id="servicios" class="py-24 bg-white border-t border-slate-200 relative overflow-hidden">
+        <!-- Decoración de fondo -->
+        <div class="absolute left-0 top-1/2 -translate-y-1/2 w-96 h-96 bg-emerald-50 rounded-full blur-3xl -ml-48 pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <h2 class="text-4xl font-heading font-bold mb-4">Servicios Especializados</h2>
+                <p class="text-lg text-plus-gray">Intervenciones específicas en domicilio aplicadas bajo estrictos protocolos clínicos.</p>
+            </div>
+
+            <div class="max-w-5xl mx-auto reveal" style="animation-delay: 100ms;">
+                <!-- Tabs Modernos -->
+                <div class="flex flex-col sm:flex-row justify-center gap-2 mb-12 bg-slate-50 p-2 rounded-2xl max-w-fit mx-auto border border-slate-200/60">
+                    <button class="px-8 py-3 bg-white text-plus-green rounded-xl font-medium shadow-sm border border-slate-200 transition-all flex items-center justify-center gap-2" id="tab-dermo">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                        Dermoestética
+                    </button>
+                    <button class="px-8 py-3 text-plus-gray hover:text-plus-dark hover:bg-slate-100 rounded-xl font-medium border border-transparent transition-all flex items-center justify-center gap-2" id="tab-enf">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                        Procedimientos de Enfermería
+                    </button>
+                </div>
+
+                <!-- Tab Content: Dermoestética -->
+                <div id="content-dermo" class="transition-all duration-500">
+                    <div class="bg-white rounded-[2rem] shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden group hover:shadow-2xl hover:shadow-emerald-500/10 hover:border-emerald-200 transition-all duration-500 hover:-translate-y-1">
+                        <div class="grid md:grid-cols-5 h-full">
+                            <!-- Info Section -->
+                            <div class="md:col-span-3 p-8 md:p-12 relative overflow-hidden">
+                                <div class="absolute -right-20 -top-20 w-64 h-64 bg-emerald-50 rounded-full blur-3xl group-hover:bg-emerald-100 transition-colors pointer-events-none"></div>
+                                <div class="relative z-10">
+                                    <div class="flex items-center justify-between mb-6">
+                                        <div class="w-14 h-14 bg-emerald-50 rounded-2xl flex items-center justify-center text-plus-green border border-emerald-100">
+                                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                                        </div>
+                                        <p class="text-sm font-semibold text-plus-green bg-emerald-50 px-4 py-2 rounded-full border border-emerald-100">Terapia Regenerativa</p>
+                                    </div>
+                                    
+                                    <h3 class="text-3xl font-heading font-bold mb-4">Plasma Rico en Plaquetas</h3>
+                                    <p class="text-lg text-plus-gray mb-8 leading-relaxed">Terapia regenerativa celular, el Plasma Rico en Plaquetas entrega múltiples beneficios, ayuda a reducir arrugas, mejorar la textura de la piel, aumentar su luminosidad y disminuir la flacidez.</p>
+                                    
+                                    <div class="flex flex-col sm:flex-row sm:items-end gap-6 mb-8">
+                                        <div>
+                                            <div class="text-sm text-slate-400 line-through mb-1">Valor referencial: CLP 60,000</div>
+                                            <div class="text-4xl font-heading font-extrabold text-plus-dark">CLP 50,000</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Beneficios & CTA Section -->
+                            <div class="md:col-span-2 bg-slate-50 p-8 md:p-12 border-l border-slate-100 flex flex-col justify-center">
+                                <h4 class="font-heading font-semibold text-plus-dark text-lg mb-6">Beneficios principales:</h4>
+                                <ul class="space-y-5 mb-10">
+                                    <li class="flex items-start gap-3">
+                                        <div class="bg-white p-1.5 rounded-full shadow-sm text-plus-green shrink-0 mt-0.5 border border-emerald-50">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                                        </div>
+                                        <span class="text-plus-gray font-medium">Reducción de arrugas, luminosidad y textura</span>
+                                    </li>
+                                    <li class="flex items-start gap-3">
+                                        <div class="bg-white p-1.5 rounded-full shadow-sm text-plus-green shrink-0 mt-0.5 border border-emerald-50">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                                        </div>
+                                        <span class="text-plus-gray font-medium">Tratamiento de úlceras, quemaduras y lesiones</span>
+                                    </li>
+                                    <li class="flex items-start gap-3">
+                                        <div class="bg-white p-1.5 rounded-full shadow-sm text-plus-green shrink-0 mt-0.5 border border-emerald-50">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                                        </div>
+                                        <span class="text-plus-gray font-medium">Tratamiento de alopecia (reduce caída y estimula crecimiento)</span>
+                                    </li>
+                                </ul>
+                                <button onclick="document.getElementById('plan-select').value='prp'; window.location.href='#reserva'" class="w-full py-4 rounded-xl bg-gradient-to-r from-plus-dark to-slate-800 text-white font-medium hover:from-slate-800 hover:to-plus-dark transition-all shadow-lg shadow-slate-800/20 hover:shadow-xl hover:-translate-y-0.5 flex items-center justify-center gap-2 mt-auto">
+                                    Agendar Procedimiento
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab Content: Procedimientos de Enfermería -->
+                <div id="content-enf" class="hidden transition-all duration-500 space-y-8">
+                    
+                    <!-- Banner de Enfoque Integral -->
+                    <div class="bg-emerald-50 rounded-[2rem] p-8 md:p-12 border border-emerald-100 flex flex-col md:flex-row gap-8 items-center shadow-sm relative overflow-hidden">
+                        <div class="absolute right-0 top-0 w-64 h-64 bg-white/40 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none"></div>
+                        <div class="flex-1 relative z-10">
+                            <div class="inline-flex items-center gap-1 text-plus-green font-bold text-sm uppercase tracking-wider mb-2">Enfoque Diferencial</div>
+                            <h4 class="font-heading font-bold text-2xl text-plus-dark mb-4">No es solo limpiar y cubrir</h4>
+                            <p class="text-plus-gray mb-6 leading-relaxed">Para que tu herida cierre bien, aseguramos que cicatrice correctamente, no evolucione a infección y sea monitoreada con criterio clínico. Tu cuerpo necesita los siguientes elementos trabajando juntos:</p>
+                            <ul class="grid sm:grid-cols-2 gap-3 text-sm text-plus-dark">
+                                <li class="flex items-center gap-2"><span class="text-plus-green font-bold">✓</span> <b>Vitamina C:</b> Piel nueva fuerte y firme</li>
+                                <li class="flex items-center gap-2"><span class="text-plus-green font-bold">✓</span> <b>Zinc:</b> Multiplicación celular segura</li>
+                                <li class="flex items-center gap-2"><span class="text-plus-green font-bold">✓</span> <b>Proteínas:</b> Material para tejido nuevo</li>
+                                <li class="flex items-center gap-2"><span class="text-plus-green font-bold">✓</span> <b>Circulación:</b> Oxígeno para sanar</li>
+                                <li class="flex items-center gap-2 sm:col-span-2"><span class="text-plus-green font-bold">✓</span> <b>Inflamación controlada:</b> Evita retrasos o complicaciones</li>
+                            </ul>
+                        </div>
+                        <div class="bg-white p-6 rounded-2xl shadow-md border border-emerald-100 text-center max-w-sm relative z-10">
+                            <div class="text-3xl mb-2">👉</div>
+                            <p class="font-heading font-bold text-plus-dark mb-2">En simple:</p>
+                            <p class="text-sm text-plus-gray leading-relaxed">Tu cuerpo necesita <span class="text-plus-green font-bold">nutrientes</span> + <span class="text-plus-green font-bold">buena circulación</span> + <span class="text-plus-green font-bold">control de la inflamación</span> para cicatrizar rápido y bien.</p>
+                        </div>
+                    </div>
+
+                    <!-- Tarjetas de Curaciones -->
+                    <div class="grid lg:grid-cols-2 gap-8">
+                        <!-- Curación Simple -->
+                        <div class="bg-white rounded-[2rem] shadow-lg shadow-slate-200/50 border border-slate-100 p-8 flex flex-col hover:border-emerald-200 hover:shadow-emerald-500/10 hover:-translate-y-1 transition-all duration-300">
+                            <div class="flex justify-between items-start mb-6">
+                                <div>
+                                    <h3 class="text-2xl font-heading font-bold mb-1 text-plus-dark">Curación Simple</h3>
+                                    <p class="text-sm font-medium text-plus-green bg-emerald-50 inline-block px-2 py-1 rounded">Prevención y seguridad</p>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-sm text-slate-400 line-through">CLP 25,000</div>
+                                    <div class="text-2xl font-heading font-extrabold text-plus-green">CLP 20,000</div>
+                                </div>
+                            </div>
+                            <p class="text-sm text-plus-gray mb-6">Atención destinada al manejo básico y seguro de heridas superficiales para prevenir infecciones, favorecer la cicatrización y dar tranquilidad en el hogar.</p>
+                            <h4 class="font-heading font-semibold text-plus-dark text-sm mb-3">¿Para quién está indicado?</h4>
+                            <ul class="text-sm text-plus-gray space-y-2 mb-6 ml-1">
+                                <li class="flex gap-2"><span>•</span> Heridas superficiales, cortes o raspaduras.</li>
+                                <li class="flex gap-2"><span>•</span> Curación de puntos o procedimientos menores.</li>
+                                <li class="flex gap-2"><span>•</span> Retiro/cambio de apósitos y lesiones sin infección.</li>
+                            </ul>
+                            <h4 class="font-heading font-semibold text-plus-dark text-sm mb-3">¿Qué incluye?</h4>
+                            <ul class="text-sm text-plus-gray space-y-2 mb-8 ml-1 flex-1">
+                                <li class="flex gap-2"><span>✓</span> Evaluación básica y limpieza aséptica.</li>
+                                <li class="flex gap-2"><span>✓</span> Desinfección y cobertura con apósito simple.</li>
+                                <li class="flex gap-2"><span>✓</span> Educación domiciliaria e indicaciones de alarma.</li>
+                            </ul>
+                            <button onclick="document.getElementById('plan-select').value='curacion-simple'; window.location.href='#reserva'" class="w-full py-3 rounded-xl border border-plus-dark text-plus-dark font-medium hover:bg-plus-dark hover:text-white transition-colors mt-auto">Agendar Curación</button>
+                        </div>
+
+                        <!-- Curación Avanzada -->
+                        <div class="bg-white rounded-[2rem] shadow-lg shadow-slate-200/50 border border-slate-100 p-8 flex flex-col hover:border-emerald-200 hover:shadow-emerald-500/10 hover:-translate-y-1 transition-all duration-300">
+                            <div class="flex justify-between items-start mb-6">
+                                <div>
+                                    <h3 class="text-2xl font-heading font-bold mb-1 text-plus-dark">Curación Avanzada</h3>
+                                    <p class="text-sm font-medium text-plus-green bg-emerald-50 inline-block px-2 py-1 rounded">Manejo especializado</p>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-sm text-slate-400 line-through">CLP 45,000</div>
+                                    <div class="text-2xl font-heading font-extrabold text-plus-green">CLP 35,000</div>
+                                </div>
+                            </div>
+                            <p class="text-sm text-plus-gray mb-6">Atención especializada para el manejo integral de heridas complejas usando apósitos de última generación, acelerando la cicatrización y evitando hospitalizaciones.</p>
+                            <h4 class="font-heading font-semibold text-plus-dark text-sm mb-3">¿Para quién está indicado?</h4>
+                            <ul class="text-sm text-plus-gray space-y-2 mb-6 ml-1">
+                                <li class="flex gap-2"><span>•</span> Úlceras por presión y pie diabético.</li>
+                                <li class="flex gap-2"><span>•</span> Heridas quirúrgicas abiertas o infectadas.</li>
+                                <li class="flex gap-2"><span>•</span> Lesiones vasculares o de cicatrización lenta.</li>
+                            </ul>
+                            <h4 class="font-heading font-semibold text-plus-dark text-sm mb-3">¿Qué incluye?</h4>
+                            <ul class="text-sm text-plus-gray space-y-2 mb-8 ml-1 flex-1">
+                                <li class="flex gap-2"><span>✓</span> Valoración clínica completa y manejo del dolor.</li>
+                                <li class="flex gap-2"><span>✓</span> Selección y aplicación de apósitos avanzados (hidrocoloides, alginatos, etc.).</li>
+                                <li class="flex gap-2"><span>✓</span> Registro de evolución y educación a cuidador.</li>
+                            </ul>
+                            <button onclick="document.getElementById('plan-select').value='curacion-avanzada'; window.location.href='#reserva'" class="w-full py-3 rounded-xl border border-plus-dark text-plus-dark font-medium hover:bg-plus-dark hover:text-white transition-colors mt-auto">Agendar Curación</button>
+                        </div>
+                    </div>
+
+                    <!-- Endovenosa & Inyectables -->
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <div class="bg-slate-50 rounded-[1.5rem] border border-slate-200 p-6 flex flex-col group hover:bg-white hover:shadow-lg hover:shadow-emerald-500/5 hover:-translate-y-1 transition-all duration-300">
+                            <h3 class="text-lg font-heading font-bold text-plus-dark mb-2">Vía Endovenosa</h3>
+                            <div class="text-2xl font-heading font-extrabold text-plus-green mb-4">CLP 40,000</div>
+                            <p class="text-sm text-plus-gray flex-1">Administración segura de medicamentos vía endovenosa bajo estricta indicación médica.</p>
+                        </div>
+                        <div class="bg-slate-50 rounded-[1.5rem] border border-slate-200 p-6 flex flex-col group hover:bg-white hover:shadow-lg hover:shadow-emerald-500/5 hover:-translate-y-1 transition-all duration-300">
+                            <h3 class="text-lg font-heading font-bold text-plus-dark mb-2">Inyección Única (IM/SC)</h3>
+                            <div class="text-xs text-slate-400 line-through">CLP 20,000</div>
+                            <div class="text-2xl font-heading font-extrabold text-plus-green mb-3">CLP 16,000 <span class="text-xs font-normal text-plus-dark bg-emerald-50 px-2 py-1 rounded ml-1 border border-emerald-100">-20%</span></div>
+                            <p class="text-sm text-plus-gray mb-4 flex-1">Administración segura sin exponerte. Evaluación previa y coordinación flexible.</p>
+                            <p class="text-xs font-semibold text-plus-dark bg-slate-200/50 p-2 rounded-lg inline-block">📍 Puerto Montt y alrededores</p>
+                        </div>
+                        <div class="bg-slate-50 rounded-[1.5rem] border border-slate-200 p-6 flex flex-col group hover:bg-white hover:shadow-lg hover:shadow-emerald-500/5 hover:-translate-y-1 transition-all duration-300">
+                            <h3 class="text-lg font-heading font-bold text-plus-dark mb-2">Tratamiento 3 Dosis</h3>
+                            <div class="text-xs text-slate-400 line-through">CLP 45,000</div>
+                            <div class="text-2xl font-heading font-extrabold text-plus-green mb-3">CLP 39,000</div>
+                            <p class="text-sm text-plus-gray mb-4 flex-1">3 administraciones en domicilio. Ideal para tratamientos indicados por varios días.</p>
+                            <p class="text-xs font-semibold text-plus-dark bg-slate-200/50 p-2 rounded-lg inline-block">📍 Puerto Montt y alrededores</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reserva Module -->
+    <section id="reserva" class="py-24 bg-slate-50 border-t border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-16 bg-white p-8 md:p-12 rounded-[2.5rem] shadow-xl border border-slate-100 reveal">
+                
+                <!-- Calendar UI -->
+                <div>
+                    <h2 class="text-3xl font-heading font-bold mb-2">Agenda tu visita</h2>
+                    <p class="text-plus-gray mb-8">Selecciona la fecha disponible para tu atención domiciliaria.</p>
+                    
+                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
+                        <div class="flex justify-between items-center mb-6">
+                            <button type="button" id="prev-month" class="p-2 hover:bg-white rounded-lg transition-colors border border-transparent hover:border-slate-200">
+                                <svg class="w-5 h-5 text-plus-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                            </button>
+                            <div id="month-label" class="font-heading font-bold text-lg">Mayo 2026</div>
+                            <button type="button" id="next-month" class="p-2 hover:bg-white rounded-lg transition-colors border border-transparent hover:border-slate-200">
+                                <svg class="w-5 h-5 text-plus-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                            </button>
+                        </div>
+                        <div class="grid grid-cols-7 gap-2 text-center mb-2">
+                            <div class="text-xs font-semibold text-slate-400">LU</div>
+                            <div class="text-xs font-semibold text-slate-400">MA</div>
+                            <div class="text-xs font-semibold text-slate-400">MI</div>
+                            <div class="text-xs font-semibold text-slate-400">JU</div>
+                            <div class="text-xs font-semibold text-slate-400">VI</div>
+                            <div class="text-xs font-semibold text-slate-400">SA</div>
+                            <div class="text-xs font-semibold text-slate-400">DO</div>
+                        </div>
+                        <div id="calendar-grid" class="grid grid-cols-7 gap-2">
+                            <!-- JS generates calendar here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form UI -->
+                <div>
+                    <form id="booking-form" class="space-y-6">
+                        <div>
+                            <label class="block text-sm font-medium text-plus-dark mb-2">Fecha seleccionada</label>
+                            <input type="text" id="selected-date" required readonly placeholder="Selecciona un día disponible en el calendario" class="w-full bg-slate-50 border border-slate-200 text-plus-dark text-sm rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-400/50 focus:border-emerald-400 transition-all cursor-default">
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-plus-dark mb-2">Nombre completo</label>
+                                <input type="text" id="form-name" required placeholder="Ej: Juan Pérez" class="w-full bg-white border border-slate-200 text-plus-dark text-sm rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-400/50 focus:border-emerald-400 transition-all shadow-sm">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-plus-dark mb-2">Teléfono</label>
+                                <input type="tel" id="form-phone" required placeholder="+56 9 1234 5678" pattern="[0-9+\s\-]+" title="Ingresa un número válido" class="w-full bg-white border border-slate-200 text-plus-dark text-sm rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-400/50 focus:border-emerald-400 transition-all shadow-sm">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-plus-dark mb-2">Plan o Servicio</label>
+                            <select id="plan-select" required class="w-full bg-white border border-slate-200 text-plus-dark text-sm rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-400/50 focus:border-emerald-400 transition-all appearance-none shadow-sm cursor-pointer">
+                                <option value="" disabled selected>Selecciona una opción</option>
+                                <option value="evaluacion">Evaluación Inicial ($20,000)</option>
+                                <option value="acompaña">Plan Acompaña+ ($60,000)</option>
+                                <option value="sostiene">Plan Sostiene+ ($139,000)</option>
+                                <option value="recuperate">Plan Recuperate+ ($199,000)</option>
+                                <option value="asiste">Plan Asiste+ ($350,000)</option>
+                                <option value="prp">Plasma Rico en Plaquetas ($50,000)</option>
+                                <option value="curacion-simple">Curación Simple ($20,000)</option>
+                                <option value="curacion-avanzada">Curación Avanzada ($35,000)</option>
+                                <option value="inyecciones">Inyecciones / Vía Endovenosa</option>
+                                <option value="otro">Otro procedimiento / Consulta</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-plus-dark mb-2">Motivo de consulta / Diagnóstico previo</label>
+                            <textarea id="form-motivo" rows="3" class="w-full bg-white border border-slate-200 text-plus-dark text-sm rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-400/50 focus:border-emerald-400 transition-all shadow-sm"></textarea>
+                        </div>
+
+                        <button type="submit" id="submit-btn" class="w-full bg-gradient-to-r from-plus-green to-emerald-500 hover:from-emerald-500 hover:to-plus-green text-white font-medium py-4 rounded-xl transition-all shadow-lg shadow-emerald-500/30 text-lg flex justify-center items-center gap-2 hover:-translate-y-0.5">
+                            Confirmar Solicitud
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </button>
+                        
+                        <p class="text-center text-sm text-plus-gray mt-4">
+                            O contáctanos a <a href="mailto:contacto@cuidartemas.cl" class="text-plus-dark font-medium hover:text-plus-green">contacto@cuidartemas.cl</a> o al <a href="https://wa.me/56995936042" target="_blank" class="text-plus-dark font-medium hover:text-plus-green">+56 9 9593 6042</a>
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="py-24 bg-white border-t border-slate-200">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 reveal">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-heading font-bold mb-4">Preguntas Frecuentes</h2>
+                <p class="text-plus-gray">Resolvemos tus dudas más comunes sobre nuestra atención a domicilio.</p>
+            </div>
+            
+            <div class="space-y-4">
+                <!-- FAQ Item 1 -->
+                <details class="group bg-slate-50 rounded-2xl border border-slate-200 [&_summary::-webkit-details-marker]:hidden hover:bg-white hover:shadow-lg hover:shadow-slate-200/50 hover:border-emerald-200 transition-all duration-300">
+                    <summary class="flex items-center justify-between p-6 font-heading font-semibold cursor-pointer text-plus-dark">
+                        ¿En qué zonas realizan la atención a domicilio?
+                        <span class="transition group-open:rotate-180 text-plus-green">
+                            <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
+                        </span>
+                    </summary>
+                    <div class="px-6 pb-6 text-plus-gray text-sm leading-relaxed">
+                        Actualmente prestamos nuestros servicios de cuidado clínico y procedimientos en la ciudad de Puerto Montt y sus alrededores. Para sectores más alejados, te recomendamos consultarnos por WhatsApp para evaluar la factibilidad técnica y costos de traslado.
+                    </div>
+                </details>
+                <!-- FAQ Item 2 -->
+                <details class="group bg-slate-50 rounded-2xl border border-slate-200 [&_summary::-webkit-details-marker]:hidden hover:bg-white hover:shadow-lg hover:shadow-slate-200/50 hover:border-emerald-200 transition-all duration-300">
+                    <summary class="flex items-center justify-between p-6 font-heading font-semibold cursor-pointer text-plus-dark">
+                        ¿Los insumos médicos están incluidos en el valor de la visita?
+                        <span class="transition group-open:rotate-180 text-plus-green">
+                            <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
+                        </span>
+                    </summary>
+                    <div class="px-6 pb-6 text-plus-gray text-sm leading-relaxed">
+                        Los insumos básicos para las curaciones e intervenciones estándar están incluidos. En caso de requerir apósitos avanzados, medicamentos específicos o tratamientos inyectables de alto costo, se evaluará e informará previamente a la familia.
+                    </div>
+                </details>
+                <!-- FAQ Item 3 -->
+                <details class="group bg-slate-50 rounded-2xl border border-slate-200 [&_summary::-webkit-details-marker]:hidden hover:bg-white hover:shadow-lg hover:shadow-slate-200/50 hover:border-emerald-200 transition-all duration-300">
+                    <summary class="flex items-center justify-between p-6 font-heading font-semibold cursor-pointer text-plus-dark">
+                        ¿Entregan boleta para reembolsar en Isapre o seguro de salud?
+                        <span class="transition group-open:rotate-180 text-plus-green">
+                            <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
+                        </span>
+                    </summary>
+                    <div class="px-6 pb-6 text-plus-gray text-sm leading-relaxed">
+                        Sí, emitimos boleta de honorarios por prestación de servicios de enfermería, la cual puedes presentar en tu Isapre o seguro complementario de salud para solicitar el reembolso correspondiente según tu plan y cobertura.
+                    </div>
+                </details>
+                <!-- FAQ Item 4 -->
+                <details class="group bg-slate-50 rounded-2xl border border-slate-200 [&_summary::-webkit-details-marker]:hidden hover:bg-white hover:shadow-lg hover:shadow-slate-200/50 hover:border-emerald-200 transition-all duration-300">
+                    <summary class="flex items-center justify-between p-6 font-heading font-semibold cursor-pointer text-plus-dark">
+                        ¿Cómo funciona el soporte vía WhatsApp de los planes?
+                        <span class="transition group-open:rotate-180 text-plus-green">
+                            <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
+                        </span>
+                    </summary>
+                    <div class="px-6 pb-6 text-plus-gray text-sm leading-relaxed">
+                        Dependiendo del plan contratado, brindamos orientación y contención frente a dudas o eventualidades clínicas en horario hábil. Este canal está diseñado para seguimiento y ajustes rápidos, pero no reemplaza a un servicio de urgencia en caso de riesgo vital.
+                    </div>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-plus-dark text-white py-12 border-t border-slate-800 relative overflow-hidden">
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-1 bg-gradient-to-r from-transparent via-plus-green to-transparent opacity-30"></div>
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-xl h-24 bg-plus-green/10 blur-[80px] rounded-full pointer-events-none"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-3 gap-8">
+            <div>
+                <div class="flex items-center gap-1 mb-4">
+                    <span class="font-heading font-bold text-2xl text-white tracking-tight opacity-90">Cuidarte</span>
+                    <span class="font-heading font-bold text-3xl text-transparent bg-clip-text bg-gradient-to-r from-plus-green to-emerald-400">+</span>
+                </div>
+                <p class="text-slate-400 text-sm">Cuidado clínico avanzado en tu hogar. Transición y gestión clínica domiciliaria en tus manos.</p>
+            </div>
+            <div>
+                <h4 class="font-heading font-semibold mb-4 text-lg">Horario de Atención</h4>
+                <p class="text-slate-400 text-sm mb-1">Lunes a Domingo</p>
+                <p class="text-plus-green font-medium">09:00 - 20:00 hrs</p>
+            </div>
+            <div>
+                <h4 class="font-heading font-semibold mb-4 text-lg">Contacto</h4>
+                <a href="mailto:contacto@cuidartemas.cl" class="text-slate-400 text-sm hover:text-white transition-colors block mb-2">contacto@cuidartemas.cl</a>
+                <a href="https://wa.me/56995936042" target="_blank" class="text-slate-400 text-sm hover:text-white transition-colors block mb-2">+56 9 9593 6042</a>
+                <p class="text-slate-400 text-sm">Región Metropolitana, Chile</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Botón flotante de WhatsApp -->
+    <a href="https://wa.me/56995936042" target="_blank" rel="noopener noreferrer" class="fixed bottom-6 right-6 bg-[#25D366] text-white p-4 rounded-full shadow-lg hover:bg-[#128C7E] transition-transform hover:scale-110 z-50 flex items-center justify-center">
+        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+    </a>
+
+    <script>
+        // Lógica de Tabs Servicios
+        const tabDermo = document.getElementById('tab-dermo');
+        const tabEnf = document.getElementById('tab-enf');
+        const contentDermo = document.getElementById('content-dermo');
+        const contentEnf = document.getElementById('content-enf');
+
+        const activeTabClass = ['bg-white', 'text-plus-green', 'shadow-sm', 'border-slate-200'];
+        const inactiveTabClass = ['text-plus-gray', 'hover:text-plus-dark', 'hover:bg-slate-100', 'border-transparent'];
+
+        tabDermo.addEventListener('click', () => {
+            tabDermo.classList.remove(...inactiveTabClass);
+            tabDermo.classList.add(...activeTabClass);
+            tabEnf.classList.remove(...activeTabClass);
+            tabEnf.classList.add(...inactiveTabClass);
+            contentDermo.classList.remove('hidden');
+            contentEnf.classList.add('hidden');
+        });
+
+        tabEnf.addEventListener('click', () => {
+            tabEnf.classList.remove(...inactiveTabClass);
+            tabEnf.classList.add(...activeTabClass);
+            tabDermo.classList.remove(...activeTabClass);
+            tabDermo.classList.add(...inactiveTabClass);
+            contentEnf.classList.remove('hidden');
+            contentDermo.classList.add('hidden');
+        });
+
+        // Lógica Funcional de Calendario
+        const grid = document.getElementById('calendar-grid');
+        const dateInput = document.getElementById('selected-date');
+        const monthLabel = document.getElementById('month-label');
+        let selectedElement = null;
+
+        const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+        let currentDate = new Date();
+        let currentMonth = currentDate.getMonth();
+        let currentYear = currentDate.getFullYear();
+
+        function renderCalendar(month, year) {
+            grid.innerHTML = '';
+            monthLabel.innerText = `${monthNames[month]} ${year}`;
+
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const today = new Date();
+            
+            let startDay = firstDay === 0 ? 6 : firstDay - 1; // Ajustar para que Lunes sea 0
+
+            for(let i=0; i<startDay; i++) {
+                const empty = document.createElement('div');
+                grid.appendChild(empty);
+            }
+
+            for(let i=1; i<=daysInMonth; i++) {
+                const div = document.createElement('div');
+                
+                // Días pasados no están disponibles
+                const isPast = year < today.getFullYear() || (year === today.getFullYear() && month < today.getMonth()) || (year === today.getFullYear() && month === today.getMonth() && i < today.getDate());
+                const isAvailable = !isPast; 
+                
+                div.className = `aspect-square flex items-center justify-center rounded-lg text-sm font-medium transition-colors border ${isAvailable ? 'border-emerald-100 bg-emerald-50/30 text-plus-dark hover:bg-plus-green hover:text-white hover:border-plus-green cursor-pointer' : 'border-transparent text-slate-300 pointer-events-none'}`;
+                div.innerText = i;
+                
+                if(isAvailable) {
+                    div.onclick = () => {
+                        if(selectedElement) {
+                            selectedElement.classList.remove('bg-plus-green', 'text-white', 'border-plus-green');
+                            selectedElement.classList.add('bg-emerald-50/30', 'text-plus-dark', 'border-emerald-100');
+                        }
+                        div.classList.remove('bg-emerald-50/30', 'text-plus-dark', 'border-emerald-100');
+                        div.classList.add('bg-plus-green', 'text-white', 'border-plus-green');
+                        selectedElement = div;
+                        dateInput.value = `${i} de ${monthNames[month]}, ${year}`;
+                    };
+                }
+                grid.appendChild(div);
+            }
+        }
+
+        document.getElementById('prev-month').addEventListener('click', () => {
+            currentMonth--;
+            if(currentMonth < 0) { currentMonth = 11; currentYear--; }
+            renderCalendar(currentMonth, currentYear);
+        });
+
+        document.getElementById('next-month').addEventListener('click', () => {
+            currentMonth++;
+            if(currentMonth > 11) { currentMonth = 0; currentYear++; }
+            renderCalendar(currentMonth, currentYear);
+        });
+
+        // Iniciar calendario
+        renderCalendar(currentMonth, currentYear);
+
+        // Lógica de Envío de Formulario
+        const form = document.getElementById('booking-form');
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const date = document.getElementById('selected-date').value;
+            const name = document.getElementById('form-name').value;
+            const phone = document.getElementById('form-phone').value;
+            const planSelect = document.getElementById('plan-select');
+            const planText = planSelect.options[planSelect.selectedIndex].text;
+            const motivo = document.getElementById('form-motivo').value;
+
+            if(!date) {
+                alert('Por favor, selecciona una fecha disponible en el calendario.');
+                return;
+            }
+
+            // Preparar mensaje para WhatsApp
+            const cuerpo = `Hola equipo de *Cuidarte+* 💚,\n\nQuisiera agendar una visita domiciliaria. Aquí están mis datos:\n\n📅 *Fecha seleccionada:* ${date}\n👤 *Nombre:* ${name}\n📱 *Teléfono:* ${phone}\n🏥 *Servicio de interés:* ${planText}\n📝 *Motivo de consulta:* ${motivo || 'No especificado'}\n\nQuedo atento/a a su confirmación.`;
+            
+            // Redirigir a WhatsApp en una nueva pestaña
+            window.open(`https://wa.me/56995936042?text=${encodeURIComponent(cuerpo)}`, '_blank');
+
+            // Feedback visual en el botón
+            const btn = document.getElementById('submit-btn');
+            const originalContent = btn.innerHTML;
+            btn.innerHTML = '¡Redirigiendo a WhatsApp... ✓!';
+            btn.classList.remove('bg-plus-green', 'hover:bg-plus-greenHover');
+            btn.classList.add('bg-emerald-600');
+            
+            setTimeout(() => {
+                btn.innerHTML = originalContent;
+                btn.classList.add('bg-plus-green', 'hover:bg-plus-greenHover');
+                btn.classList.remove('bg-emerald-600');
+                form.reset();
+                // Limpiar selección del calendario
+                if(selectedElement) {
+                    selectedElement.classList.remove('bg-plus-green', 'text-white', 'border-plus-green');
+                    selectedElement.classList.add('bg-emerald-50/30', 'text-plus-dark', 'border-emerald-100');
+                    selectedElement = null;
+                }
+                dateInput.value = '';
+            }, 3500);
+        });
+
+        // Lógica de animaciones al hacer scroll (Intersection Observer)
+        document.addEventListener("DOMContentLoaded", () => {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        observer.unobserve(entry.target); // Animación se ejecuta solo una vez
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.reveal').forEach((el) => {
+                observer.observe(el);
+            });
+        });
+
+        // Lógica para cambiar el estilo del Navbar al hacer scroll
+        const navbar = document.querySelector('nav');
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuIcon = document.getElementById('mobile-menu-icon');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        window.addEventListener('scroll', () => {
+            const isMenuOpen = !mobileMenu.classList.contains('hidden');
+            if (window.scrollY > 20 || isMenuOpen) {
+                navbar.classList.remove('glass', 'border-gray-200/50');
+                navbar.classList.add('bg-white', 'shadow-sm', 'border-slate-100');
+            } else {
+                navbar.classList.add('glass', 'border-gray-200/50');
+                navbar.classList.remove('bg-white', 'shadow-sm', 'border-slate-100');
+            }
+        });
+
+        // Lógica para alternar el menú móvil
+        function toggleMobileMenu() {
+            mobileMenu.classList.toggle('hidden');
+            if (mobileMenu.classList.contains('hidden')) {
+                mobileMenuIcon.setAttribute('d', 'M4 6h16M4 12h16M4 18h16'); // Ícono hamburguesa
+                if (window.scrollY <= 20) {
+                    navbar.classList.add('glass', 'border-gray-200/50');
+                    navbar.classList.remove('bg-white', 'shadow-sm', 'border-slate-100');
+                }
+            } else {
+                mobileMenuIcon.setAttribute('d', 'M6 18L18 6M6 6l12 12'); // Ícono de cerrar (X)
+                navbar.classList.remove('glass', 'border-gray-200/50');
+                navbar.classList.add('bg-white', 'shadow-sm', 'border-slate-100');
+            }
+        }
+
+        mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+
+        // Cerrar menú al hacer clic en un enlace de la versión móvil
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (!mobileMenu.classList.contains('hidden')) toggleMobileMenu();
+            });
+        });
+    </script>
+</body>
+</html>
